@@ -1,0 +1,6 @@
+streamlit
+openai
+PyMuPDF
+faiss-cpu
+tiktoken
+python-dotenv
