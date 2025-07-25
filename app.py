@@ -16,43 +16,48 @@ if uploaded_file:
 
     st.success("✅ PDF uploaded successfully!")
 
+   Step: Inside 'Extract & Summarize' button
     if st.button("🔍 Extract & Summarize"):
         with st.spinner("⏳ Processing PDF..."):
-            # Step 1: Extract text
             full_text = extract_text_from_pdf(temp_pdf_path)
+        chunks = split_text(full_text, max_chunk_size=500, overlap=50)
+        st.session_state.chunks = chunks  # 🔄 Store for later use
 
-            # Step 2: Split text
-            chunks = split_text(full_text, max_chunk_size=500, overlap=50)
-            st.write(f"📦 Text split into {len(chunks)} chunks")
+        # Summarize (optional)
+        summaries = []
+        for i, chunk in enumerate(chunks):
+            st.info(f"Summarizing chunk {i+1}/{len(chunks)}...")
+            summary = summarize_chunk(chunk, model="gemma3")
+            summaries.append(summary)
 
-            # Step 3: Summarize
-            summaries = []
-            for i, chunk in enumerate(chunks):
-                st.info(f"Summarizing chunk {i+1}/{len(chunks)}...")
-                summary = summarize_chunk(chunk, model="gemma3")
-                summaries.append(summary)
+        final_summary = "\n\n".join(summaries)
+        st.session_state.summary = final_summary  # 🔄 Store summary
+        st.success("✅ Summary generated!")
 
-            final_summary = "\n\n".join(summaries)
-            st.success("✅ Summary generated!")
+        st.subheader("📝 Summary")
+        st.text_area("Generated Summary", value=final_summary, height=300)
 
-            # Display summary
-            st.subheader("📝 Summary")
-            st.text_area("Generated Summary", value=final_summary, height=300)
-            st.download_button("⬇ Download Summary", final_summary, file_name="summary.txt", mime="text/plain")
 
-            # Enable Q&A
-            st.markdown("---")
-            st.subheader("❓ Ask Questions About the PDF")
-            user_question = st.text_input("Type your question:")
+    # Q&A section
+if "chunks" in st.session_state:
+    st.markdown("---")
+    st.subheader("❓ Ask Questions About the PDF")
+    user_question = st.text_input("Type your question:")
 
-            if user_question:
-                with st.spinner("💬 Thinking..."):
-                    answers = []
-                    for i, chunk in enumerate(chunks):
-                        st.write(f"Checking chunk {i+1}/{len(chunks)}...")
-                        answer = ask_question_about_chunk(chunk, user_question, model="gemma3")
-                        answers.append(answer)
+    if user_question:
+        with st.spinner("💬 Thinking..."):
+            answers = []
+            for i, chunk in enumerate(st.session_state.chunks):
+                st.write(f"Checking chunk {i+1}/{len(st.session_state.chunks)}...")
+                try:
+                    answer = ask_question_about_chunk(chunk, user_question, model="gemma3")
+                    answers.append(f"Chunk {i+1}:\n{answer}")
+                except Exception as e:
+                    answers.append(f"Chunk {i+1} failed: {e}")
 
-                    final_answer = "\n\n".join(answers)
-                    st.success("🧠 Answer generated!")
-                    st.text_area("Answer", value=final_answer, height=200)
+            final_answer = "\n\n".join(answers)
+            st.success("🧠 Answer generated!")
+            st.text_area("Answer", value=final_answer, height=300)
+else:
+    st.info("📄 Please extract & summarize the PDF before asking questions.")
+
