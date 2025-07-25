@@ -11,7 +11,6 @@ This project lets you upload any PDF, extract text, summarize it using **local L
 - 📁 Upload any PDF
 - 🧠 Summarize using **offline models** (Gemma, LLaMA3, Mistral)
 - ❓ Ask questions about the content
-- 💾 Downloadable summary
 - Built using `Streamlit`, `PyMuPDF`, and `Ollama`
 
 ---
