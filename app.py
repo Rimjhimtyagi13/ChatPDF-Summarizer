@@ -16,7 +16,7 @@ if uploaded_file:
 
     st.success("✅ PDF uploaded successfully!")
 
-   Step: Inside 'Extract & Summarize' button
+   # Step: Inside 'Extract & Summarize' button
     if st.button("🔍 Extract & Summarize"):
         with st.spinner("⏳ Processing PDF..."):
             full_text = extract_text_from_pdf(temp_pdf_path)
