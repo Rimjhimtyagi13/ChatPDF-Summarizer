@@ -1,21 +1,21 @@
-# ChatPDF + Summarizer 🔍📄 (Offline with Ollama)
+# ChatPDF + Summarizer 
 
 This project lets you upload any PDF, extract text, summarize it using **local LLMs (like Gemma or LLaMA3 via Ollama)**, and ask custom questions — all without needing an OpenAI API key.
 
-> ⚡ Fully offline & private. Powered by [Ollama](https://ollama.com).
+>  Fully offline & private. Powered by [Ollama](https://ollama.com).
 
 ---
 
-## 🧰 Features
+## Features
 
-- 📁 Upload any PDF
-- 🧠 Summarize using **offline models** (Gemma, LLaMA3, Mistral)
-- ❓ Ask questions about the content
+-  Upload any PDF
+-  Summarize using **offline models** (Gemma, LLaMA3, Mistral)
+-  Ask questions about the content
 - Built using `Streamlit`, `PyMuPDF`, and `Ollama`
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 
 ### 1. Prerequisites
 - Python 3.8+
