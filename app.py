@@ -5,16 +5,16 @@ from utils.spillter import split_text
 from utils.llm_interface import summarize_chunk, ask_question_about_chunk
 
 st.set_page_config(page_title="ChatPDF + Q&A Tool", layout="centered")
-st.title("📄 ChatPDF Summarizer + Q&A (Ollama-powered)")
+st.title(" ChatPDF Summarizer + Q&A (Ollama-powered)")
 
-uploaded_file = st.file_uploader("📁 Upload a PDF file", type=["pdf"])
+uploaded_file = st.file_uploader(" Upload a PDF file", type=["pdf"])
 
 if uploaded_file:
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
         tmp_file.write(uploaded_file.read())
         temp_pdf_path = tmp_file.name
 
-    st.success("✅ PDF uploaded successfully!")
+    st.success(" PDF uploaded successfully!")
 
    # Step: Inside 'Extract & Summarize' button
     if st.button("🔍 Extract & Summarize"):
@@ -32,9 +32,9 @@ if uploaded_file:
 
         final_summary = "\n\n".join(summaries)
         st.session_state.summary = final_summary  # 🔄 Store summary
-        st.success("✅ Summary generated!")
+        st.success(" Summary generated!")
 
-        st.subheader("📝 Summary")
+        st.subheader(" Summary")
         st.text_area("Generated Summary", value=final_summary, height=300)
 
 
@@ -45,7 +45,7 @@ if "chunks" in st.session_state:
     user_question = st.text_input("Type your question:")
 
     if user_question:
-        with st.spinner("💬 Thinking..."):
+        with st.spinner(" Thinking..."):
             answers = []
             for i, chunk in enumerate(st.session_state.chunks):
                 st.write(f"Checking chunk {i+1}/{len(st.session_state.chunks)}...")
@@ -56,8 +56,9 @@ if "chunks" in st.session_state:
                     answers.append(f"Chunk {i+1} failed: {e}")
 
             final_answer = "\n\n".join(answers)
-            st.success("🧠 Answer generated!")
+            st.success(" Answer generated!")
             st.text_area("Answer", value=final_answer, height=300)
 else:
-    st.info("📄 Please extract & summarize the PDF before asking questions.")
+    st.info(" Please extract & summarize the PDF before asking questions.")
+
 
