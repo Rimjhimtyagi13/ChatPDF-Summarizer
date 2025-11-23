@@ -21,7 +21,7 @@ if uploaded_file:
         with st.spinner("⏳ Processing PDF..."):
             full_text = extract_text_from_pdf(temp_pdf_path)
         chunks = split_text(full_text, max_chunk_size=500, overlap=50)
-        st.session_state.chunks = chunks  # 🔄 Store for later use
+        st.session_state.chunks = chunks  #  Store for later use
 
         # Summarize (optional)
         summaries = []
@@ -31,7 +31,7 @@ if uploaded_file:
             summaries.append(summary)
 
         final_summary = "\n\n".join(summaries)
-        st.session_state.summary = final_summary  # 🔄 Store summary
+        st.session_state.summary = final_summary  #  Store summary
         st.success(" Summary generated!")
 
         st.subheader(" Summary")
@@ -60,5 +60,6 @@ if "chunks" in st.session_state:
             st.text_area("Answer", value=final_answer, height=300)
 else:
     st.info(" Please extract & summarize the PDF before asking questions.")
+
 
 
